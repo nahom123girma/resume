@@ -690,7 +690,7 @@ p{margin:0}
   .page:not(.active){display:none !important}
   .page.active{display:block !important;visibility:visible !important}
   .page.active > *:not(.section){display:none !important}
-  .preview-doc,.cover-output{display:block !important;visibility:visible !important;box-shadow:none !important;border:0 !important;padding:0 !important;background:#fff !important;color:#000 !important;min-height:auto !important;font-size:.85rem;width:100% !important;max-width:none !important;margin:0 !important;transform:none !important;animation:none !important;break-inside:avoid}
+  .preview-doc,.cover-output{display:block !important;visibility:visible !important;box-shadow:none !important;border:0 !important;padding:0 !important;background:#fff !important;color:#000 !important;min-height:auto !important;width:100% !important;max-width:186mm !important;margin:0 auto !important;transform:none !important;animation:none !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;break-inside:avoid}
   .preview-doc *,.cover-output *{animation:none !important;transition:none !important;color:inherit}
   .preview-doc h1,.preview-doc h2,.preview-doc h3,.preview-doc b,.preview-doc .item-head b,.preview-doc .name{color:#000 !important}
   .preview-doc .role-line{color:#6B3410 !important}
@@ -699,7 +699,7 @@ p{margin:0}
   .builder-preview{display:block !important}
   .container,.section{padding:0 !important;max-width:none !important}
   .squiggle svg{display:none !important}
-  @page{margin:0.5in;size:auto}
+  @page{size:Letter;margin:12mm}
 }
 /* Mirror of all the print hiding rules under .ats-print body class —
    guarantees consistent hiding even when @media print isn't reliably applied. */
@@ -1317,44 +1317,21 @@ body.plan-free #suggestions{display:none}
 .upgrade-actions .btn{font-size:.92rem}
 .upgrade-foot{color:var(--ink-3);font-size:.82rem;margin:0}
 
-/* Free-plan PDF watermark — only in print mode */
-body.plan-free .preview-doc::before,
-body.plan-free .cover-output::before{
-  content:"PREVIEW";
-  display:none;
+/* Free-plan watermark — subtle, branded, consistent on screen + export. */
+body.plan-free .preview-doc, body.plan-free .cover-output{ position:relative; }
+body.plan-free .preview-doc::before, body.plan-free .cover-output::before{
+  content:"Created with Resumry AI";
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%) rotate(-30deg);
+  font-family:'Inter', var(--sans), Arial, sans-serif;
+  font-weight:800; font-size:2.2rem; letter-spacing:.06em;
+  color:rgba(15,17,24,.06); white-space:nowrap;
+  pointer-events:none; z-index:4;
 }
 @media print{
-  body.plan-free .preview-doc,
-  body.plan-free .cover-output{position:relative}
-  body.plan-free .preview-doc::before,
-  body.plan-free .cover-output::before{
-    content:"PREVIEW \00b7 Upgrade to remove";
-    display:block !important;
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) rotate(-30deg);
-    font-family:var(--serif);
-    font-weight:900;
-    font-size:7rem;
-    color:rgba(254,93,43,.10);
-    pointer-events:none;
-    z-index:0;
-    white-space:nowrap;
-    letter-spacing:.02em;
-  }
-  /* Also add a small footer mark */
-  body.plan-free .preview-doc::after,
-  body.plan-free .cover-output::after{
-    content:"Made with Resumry — Free plan. Upgrade to remove this mark.";
-    display:block !important;
-    margin-top:36pt;
-    padding-top:8pt;
-    border-top:0.5pt solid #999;
-    color:#666;
-    font-family:var(--sans);
-    font-size:8pt;
-    text-align:center;
+  body.plan-free .preview-doc::before, body.plan-free .cover-output::before{
+    position:fixed; color:rgba(15,17,24,.09) !important;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
 }
 
@@ -2676,6 +2653,73 @@ select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible{
   .nav{padding:0 4px}
 }
 
+
+/* ═══ NEW TEMPLATES + CUSTOMIZER + PRINT FIX (appended) ═══ */
+.preview-doc{ --rp-accent:#FE5D2B; }
+
+/* Colourful */
+.preview-doc.tpl-colorful{ padding:0 !important; overflow:hidden !important; font-family:'Inter',Arial,sans-serif !important; }
+.preview-doc.tpl-colorful::before{ content:""; display:block; height:10px; background:var(--rp-accent); }
+.preview-doc.tpl-colorful > *{ padding-left:36px !important; padding-right:36px !important; }
+.preview-doc.tpl-colorful h2{ background:linear-gradient(120deg,var(--rp-accent),color-mix(in srgb,var(--rp-accent) 55%,#7a3bd0)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; font-weight:800 !important; font-size:2rem !important; padding-top:26px !important; margin-bottom:2px !important; }
+.preview-doc.tpl-colorful .role-line{ color:var(--rp-accent) !important; font-weight:700 !important; }
+.preview-doc.tpl-colorful h3{ color:#fff !important; background:var(--rp-accent); display:inline-block; padding:3px 12px !important; border-radius:6px; letter-spacing:.1em !important; font-size:.66rem !important; border:0 !important; margin:18px 0 8px !important; }
+.preview-doc.tpl-colorful .meta{ border-bottom:2px solid var(--rp-accent) !important; }
+.preview-doc.tpl-colorful .skills span{ background:color-mix(in srgb,var(--rp-accent) 14%,#fff) !important; border:1px solid var(--rp-accent) !important; color:color-mix(in srgb,var(--rp-accent) 70%,#000) !important; }
+.preview-doc.tpl-colorful .item-head time{ color:var(--rp-accent) !important; font-weight:600; }
+.preview-doc.tpl-colorful{ padding-bottom:26px !important; }
+
+/* Professional */
+.preview-doc.tpl-professional{ padding:42px 46px !important; font-family:'Inter','Helvetica Neue',Arial,sans-serif !important; color:#1a2540 !important; }
+.preview-doc.tpl-professional h2{ font-weight:700 !important; font-size:1.7rem !important; color:#15244F !important; letter-spacing:-.01em !important; margin-bottom:2px !important; }
+.preview-doc.tpl-professional .role-line{ color:#15244F !important; font-weight:600 !important; letter-spacing:.14em !important; }
+.preview-doc.tpl-professional .meta{ border-bottom:2px solid #15244F !important; color:#3A4A66 !important; padding-bottom:12px !important; margin-bottom:22px !important; }
+.preview-doc.tpl-professional h3{ color:#15244F !important; font-weight:700 !important; letter-spacing:.1em !important; font-size:.74rem !important; border-bottom:1px solid #C7D0E0 !important; padding-bottom:5px !important; margin:22px 0 10px !important; }
+.preview-doc.tpl-professional .item-head b{ color:#15244F !important; font-weight:700 !important; }
+.preview-doc.tpl-professional .item .org{ color:var(--rp-accent) !important; font-style:normal !important; font-weight:600 !important; }
+.preview-doc.tpl-professional .skills span{ background:#EEF2F8 !important; border:1px solid #C7D0E0 !important; color:#15244F !important; border-radius:4px !important; }
+
+/* Creative */
+.preview-doc.tpl-creative{ padding:0 !important; overflow:hidden !important; font-family:'Inter',Arial,sans-serif !important; }
+.preview-doc.tpl-creative h2{ background:var(--rp-accent); color:#fff !important; -webkit-text-fill-color:#fff; font-weight:800 !important; font-size:2.1rem !important; padding:30px 36px 6px !important; margin:0 !important; }
+.preview-doc.tpl-creative .role-line{ background:var(--rp-accent); color:rgba(255,255,255,.9) !important; padding:0 36px 26px !important; margin:0 !important; letter-spacing:.16em !important; font-weight:600 !important; }
+.preview-doc.tpl-creative .meta{ padding:16px 36px 14px !important; margin:0 0 8px !important; border-bottom:0 !important; background:color-mix(in srgb,var(--rp-accent) 8%,#fff) !important; }
+.preview-doc.tpl-creative > *:not(h2):not(.role-line):not(.meta){ padding-left:36px !important; padding-right:36px !important; }
+.preview-doc.tpl-creative h3{ color:var(--rp-accent) !important; font-weight:800 !important; font-size:.8rem !important; letter-spacing:.14em !important; border:0 !important; position:relative; padding-left:18px !important; margin:20px 0 8px !important; }
+.preview-doc.tpl-creative h3::before{ content:""; position:absolute; left:0; top:50%; transform:translateY(-50%); width:10px; height:10px; background:var(--rp-accent); border-radius:50%; }
+.preview-doc.tpl-creative .item-head b{ font-weight:800 !important; }
+.preview-doc.tpl-creative .skills span{ background:var(--rp-accent) !important; color:#fff !important; border:0 !important; }
+.preview-doc.tpl-creative{ padding-bottom:30px !important; }
+
+/* Dashboard swatches for new variants */
+.template-preview.colorful::before{ background:var(--rp-accent,#FE5D2B); height:8px; width:100%; left:0; top:0; }
+.template-preview.professional::before{ background:#15244F; height:6px; width:45%; }
+.template-preview.creative::before{ background:var(--rp-accent,#FE5D2B); height:14px; width:100%; left:0; top:0; }
+
+/* Customizer bar */
+.rp-customizer{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-bottom:14px; padding:12px 14px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; }
+.rpc-item{ display:flex; align-items:center; gap:8px; font-size:.8rem; color:var(--ink-2); font-weight:600; }
+.rpc-item input[type="color"]{ width:34px; height:28px; padding:0; border:1px solid var(--line); border-radius:8px; background:transparent; cursor:pointer; }
+.rpc-item select{ padding:6px 10px; background:rgba(255,255,255,.04); border:1px solid var(--line); border-radius:8px; color:var(--ink); font-size:.82rem; font-family:inherit; }
+.rpc-sections{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:.78rem; color:var(--ink-2); }
+.rpc-label{ font-weight:600; }
+.rpc-chip{ display:inline-flex; align-items:center; gap:4px; padding:4px 8px; background:rgba(255,255,255,.05); border:1px solid var(--line); border-radius:99px; color:var(--ink); font-size:.74rem; }
+.rpc-chip button{ width:18px; height:18px; display:grid; place-items:center; color:var(--ink-2); border-radius:5px; cursor:pointer; padding:0; border:0; background:transparent; font-size:.8rem; line-height:1; }
+.rpc-chip button:hover{ background:rgba(255,255,255,.12); color:var(--ink); }
+
+/* Density */
+.preview-doc.rp-density-compact h3{ margin-top:14px; }
+.preview-doc.rp-density-relaxed h3{ margin-top:30px; }
+.preview-doc.rp-density-compact .item{ margin-bottom:9px; }
+.preview-doc.rp-density-relaxed .item{ margin-bottom:20px; }
+.preview-doc.rp-density-compact p{ margin-bottom:9px; }
+.preview-doc.rp-density-relaxed p{ margin-bottom:18px; }
+
+/* Accent customisable across all templates */
+.preview-doc .role-line, .preview-doc #rp-title{ color:var(--rp-accent) !important; }
+.preview-doc.tpl-bold{ border-left-color:var(--rp-accent) !important; }
+.preview-doc.tpl-technical h2{ color:var(--rp-accent) !important; }
+
 </style>
 </head>
 <body>
@@ -3145,6 +3189,32 @@ select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible{
         </form>
 
         <div class="preview-wrap">
+          <div class="rp-customizer" id="rpCustomizer">
+            <label class="rpc-item">Accent
+              <input type="color" id="rpcAccent" value="#FE5D2B" aria-label="Accent colour" />
+            </label>
+            <label class="rpc-item">Font
+              <select id="rpcFont" aria-label="Font family">
+                <option value="sans">Sans (Inter)</option>
+                <option value="serif">Serif (Georgia)</option>
+                <option value="mono">Mono</option>
+              </select>
+            </label>
+            <label class="rpc-item">Density
+              <select id="rpcDensity" aria-label="Spacing density">
+                <option value="compact">Compact</option>
+                <option value="normal" selected>Normal</option>
+                <option value="relaxed">Relaxed</option>
+              </select>
+            </label>
+            <label class="rpc-item">Paper
+              <select id="rpcPaper" aria-label="Paper size">
+                <option value="letter">US Letter</option>
+                <option value="a4">A4</option>
+              </select>
+            </label>
+            <div class="rpc-sections" id="rpcSections" aria-label="Section order"><span class="rpc-label">Order:</span></div>
+          </div>
           <div class="preview-toolbar">
             <div class="template-pills" role="group" aria-label="Resume template">
               <button class="tpill" data-tpl="modern" aria-pressed="true" type="button">Modern</button>
@@ -3154,6 +3224,9 @@ select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible{
               <button class="tpill" data-tpl="compact" aria-pressed="false" type="button">Compact</button>
               <button class="tpill" data-tpl="technical" aria-pressed="false" type="button">Technical</button>
               <button class="tpill" data-tpl="elegant" aria-pressed="false" type="button">Elegant</button>
+              <button class="tpill" data-tpl="colorful" aria-pressed="false" type="button">Colorful</button>
+              <button class="tpill" data-tpl="professional" aria-pressed="false" type="button">Professional</button>
+              <button class="tpill" data-tpl="creative" aria-pressed="false" type="button">Creative</button>
             </div>
             <span class="eyebrow" style="margin:0">Live preview</span>
           </div>
@@ -3165,14 +3238,10 @@ select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible{
               <span id="rp-phone">+1 415 555 0142</span>
               <span id="rp-location">San Francisco, CA</span>
             </div>
-            <h3>Summary</h3>
-            <p id="rp-summary">Senior product designer with 8+ years shipping enterprise SaaS. Led design systems work at two Series-B startups; comfortable across discovery, prototyping, and ship-it execution.</p>
-            <h3>Experience</h3>
-            <div id="rp-experience"></div>
-            <h3>Skills</h3>
-            <div class="skills" id="rp-skills"></div>
-            <h3>Education</h3>
-            <p id="rp-education">BFA, Visual Design — Rhode Island School of Design, 2014</p>
+            <div class="rp-section" data-section="summary"><h3>Summary</h3><p id="rp-summary">Senior product designer with 8+ years shipping enterprise SaaS. Led design systems work at two Series-B startups; comfortable across discovery, prototyping, and ship-it execution.</p></div>
+            <div class="rp-section" data-section="experience"><h3>Experience</h3><div id="rp-experience"></div></div>
+            <div class="rp-section" data-section="skills"><h3>Skills</h3><div class="skills" id="rp-skills"></div></div>
+            <div class="rp-section" data-section="education"><h3>Education</h3><p id="rp-education">BFA, Visual Design — Rhode Island School of Design, 2014</p></div>
           </div>
         </div>
       </div>
@@ -3744,15 +3813,15 @@ select:focus-visible, [role="button"]:focus-visible, [tabindex]:focus-visible{
         </div>
 
         <div class="oauth-row">
-          <button class="oauth-btn" type="button">
+          <button class="oauth-btn" type="button" data-oauth="google" aria-label="Continue with Google">
             <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M15.5 8.2c0-.5 0-1-.1-1.5H8v2.9h4.2c-.2 1-.7 1.8-1.5 2.3v2h2.5c1.5-1.4 2.3-3.4 2.3-5.7z" fill="#4285F4"/><path d="M8 16c2 0 3.8-.7 5.1-1.8L10.6 12c-.7.5-1.6.8-2.6.8-2 0-3.7-1.3-4.3-3.2H1.1v2C2.4 14.3 5 16 8 16z" fill="#34A853"/><path d="M3.7 9.6C3.6 9.1 3.5 8.6 3.5 8s.1-1.1.2-1.6V4.4H1.1C.4 5.7 0 7.3 0 8s.4 2.3 1.1 3.6l2.6-2z" fill="#FBBC05"/><path d="M8 3.2c1.1 0 2.1.4 2.9 1.2l2.2-2.2C11.8.8 10 0 8 0 5 0 2.4 1.7 1.1 4.4l2.6 2C4.3 4.5 6 3.2 8 3.2z" fill="#EA4335"/></svg>
             Google
           </button>
-          <button class="oauth-btn" type="button">
+          <button class="oauth-btn" type="button" data-oauth="apple" aria-label="Continue with Apple">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11 2c.6 0 2.5-.4 3 1.5-2 0-3 2-3 2.5C9.6 4.3 11 2 11 2zm-1.5 6c1.5 0 2-1 4-1 1.4 0 3 1.4 3 4 0 3.5-2 7-4 7-1 0-1.5-.5-3-.5-1.4 0-2 .5-3 .5-2 0-4-3-4-7 0-3 2-5 4-5 1.4 0 2.4 1 3 1z"/></svg>
             Apple
           </button>
-          <button class="oauth-btn" type="button">
+          <button class="oauth-btn" type="button" data-oauth="linkedin" aria-label="Continue with LinkedIn">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="#0A66C2" aria-hidden="true"><path d="M1.5 14V5.5h2.8V14H1.5zm1.4-10C2 4 1.2 3.3 1.2 2.4S2 .8 2.9.8s1.7.7 1.7 1.6S3.8 4 2.9 4zM14.5 14h-2.8V9.7c0-1 0-2.4-1.5-2.4s-1.7 1.2-1.7 2.3V14H5.7V5.5h2.7v1.2h.1c.4-.7 1.3-1.4 2.6-1.4 2.8 0 3.4 1.8 3.4 4.2V14z"/></svg>
             LinkedIn
           </button>
@@ -4709,7 +4778,7 @@ function applyPlanUi(){
   if(dashPlanLabel) dashPlanLabel.textContent = PLAN_LABEL[userPlan] + ' plan';
 
   // 4. Template pills — Modern is free; all others lock for Free
-  const PRO_TEMPLATES = ['classic','bold','minimal','compact','technical','elegant'];
+  const PRO_TEMPLATES = ['classic','bold','minimal','compact','technical','elegant','colorful','professional','creative'];
   $$('.tpill').forEach(p => {
     const tpl = p.dataset.tpl;
     const requiresPro = PRO_TEMPLATES.includes(tpl);
@@ -5162,9 +5231,51 @@ function logOut(){
   if(u) cfApi.pushAdminEvent('logout', { userId: u.id });
   saveSession(null);
   setPlan('free', {silent:true});
+  applyStorageScope();
+  try { resumeState = loadResumeState(); bindResumeForm && bindResumeForm(); renderExpBlocks && renderExpBlocks(); renderChips && renderChips(); updatePreview && updatePreview(); } catch(e){}
   applyAuthUi();
   toast('Logged out.', 'success');
   location.hash = '';
+}
+
+/* ── Auth-gated downloads + per-profile document storage ── */
+function requireAuthForDownload(key){
+  if(isLoggedIn()) return true;
+  try { if(key) sessionStorage.setItem('cf-pending-download', key); } catch(e){}
+  toast('Create a free account to download your file — it only takes a moment.', 'warn', 4200);
+  location.hash = 'auth?signup';
+  return false;
+}
+function gatedDownload(key, fn){ if(requireAuthForDownload(key)){ fn(); } }
+function runPendingDownload(){
+  let key; try { key = sessionStorage.getItem('cf-pending-download'); } catch(e){}
+  if(!key || !isLoggedIn()) return;
+  try { sessionStorage.removeItem('cf-pending-download'); } catch(e){}
+  const map = { 'resume-pdf': (typeof printResume==='function'?printResume:null),
+                'cover-pdf':  (typeof printCover==='function'?printCover:null),
+                'resume-docx':(typeof doResumeDocx==='function'?doResumeDocx:null),
+                'cover-docx': (typeof doCoverDocx==='function'?doCoverDocx:null) };
+  const fn = map[key];
+  if(typeof fn === 'function') setTimeout(fn, 900);
+}
+function switchProfileAfterAuth(){
+  try { if(typeof flushSaveResumeState === 'function') flushSaveResumeState(); } catch(e){}
+  let guestState = null;
+  try { guestState = (resumeState && typeof resumeState === 'object') ? structuredClone(resumeState) : null; } catch(e){}
+  applyStorageScope();
+  let existing = [];
+  try { existing = loadResumes(); } catch(e){}
+  if(existing.length === 0 && guestState){
+    const rec = { id:'r_'+Math.random().toString(36).slice(2,8)+Date.now().toString(36),
+      name:(guestState.title ? guestState.title + ' resume' : 'My resume'),
+      data:guestState, createdAt:Date.now(), updatedAt:Date.now() };
+    try { saveResumes([rec]); setActiveResumeId(rec.id); } catch(e){}
+    resumeState = normalizeResumeData(rec.data);
+    try { if(typeof saveCoverState === 'function') saveCoverState(); } catch(e){}
+  } else {
+    try { resumeState = loadResumeState(); } catch(e){}
+  }
+  try { bindResumeForm && bindResumeForm(); renderExpBlocks && renderExpBlocks(); renderChips && renderChips(); updatePreview && updatePreview(); } catch(e){}
 }
 
 function applyAuthUi(){
@@ -5200,10 +5311,23 @@ function applyAuthUi(){
 }
 
 /* ───────────────────── RESUME STATE & PERSISTENCE ───────────────────── */
-const RESUME_KEY = 'cf-resume-v1';        // legacy single-resume key — migrated on load
-const RESUMES_KEY = 'cf-resumes-v1';      // new: array of resumes
-const ACTIVE_RESUME_KEY = 'cf-active-resume-id';
-const COVER_KEY  = 'cf-cover-v1';         // single cover letter — persists via autosave
+let RESUME_KEY = 'cf-resume-v1';          // legacy single-resume key — migrated on load
+let RESUMES_KEY = 'cf-resumes-v1';        // new: array of resumes
+let ACTIVE_RESUME_KEY = 'cf-active-resume-id';
+let COVER_KEY  = 'cf-cover-v1';           // single cover letter — persists via autosave
+/* Per-user "profile folder": namespace document storage by the logged-in user's
+   id so each account only sees its own resumes / cover letters. Guests use the
+   base keys. Called on init and whenever the session changes. */
+const _STORAGE_BASES = { RESUME_KEY:'cf-resume-v1', RESUMES_KEY:'cf-resumes-v1', ACTIVE_RESUME_KEY:'cf-active-resume-id', COVER_KEY:'cf-cover-v1' };
+function applyStorageScope(){
+  const u = (typeof currentUser === 'function') ? currentUser() : null;
+  const suffix = u ? ('::' + u.id) : '';
+  RESUME_KEY        = _STORAGE_BASES.RESUME_KEY + suffix;
+  RESUMES_KEY       = _STORAGE_BASES.RESUMES_KEY + suffix;
+  ACTIVE_RESUME_KEY = _STORAGE_BASES.ACTIVE_RESUME_KEY + suffix;
+  COVER_KEY         = _STORAGE_BASES.COVER_KEY + suffix;
+}
+applyStorageScope();
 
 const DEFAULT_RESUME = {
   name: 'Maya Okonkwo',
@@ -5274,9 +5398,12 @@ function normalizeResumeData(d){
       bullets: typeof e.bullets === 'string' ? e.bullets : ''
     }));
   }
+  if(!merged.customize || typeof merged.customize !== 'object') merged.customize = {};
+  merged.customize = Object.assign({ accent:'#FE5D2B', font:'sans', density:'normal', paper:'letter', order:['summary','experience','skills','education'] }, merged.customize);
+  if(!Array.isArray(merged.customize.order) || merged.customize.order.length !== 4) merged.customize.order = ['summary','experience','skills','education'];
   if(!Array.isArray(merged.skills)) merged.skills = [];
   merged.skills = merged.skills.filter(s => typeof s === 'string').slice(0, 30);
-  if(!['modern','classic','bold'].includes(merged.template)) merged.template = 'modern';
+  if(!['modern','classic','bold','minimal','compact','technical','elegant','colorful','professional','creative'].includes(merged.template)) merged.template = 'modern';
   return merged;
 }
 function normalizeResumeRecord(r){
@@ -5758,17 +5885,57 @@ function updatePreview(){
   // Template
   const preview = $('#resumePreview');
   if(preview){
-    preview.classList.remove('tpl-modern','tpl-classic','tpl-bold','tpl-minimal','tpl-compact','tpl-technical','tpl-elegant');
+    preview.classList.remove('tpl-modern','tpl-classic','tpl-bold','tpl-minimal','tpl-compact','tpl-technical','tpl-elegant','tpl-colorful','tpl-professional','tpl-creative');
     preview.classList.add('tpl-' + resumeState.template);
   }
+  applyCustomize();
 }
+
+/* ── Resume customizer: colour, font, density, section order ── */
+const SECTION_LABELS = { summary:'Summary', experience:'Experience', skills:'Skills', education:'Education' };
+function applyCustomize(){
+  const pv = $('#resumePreview');
+  if(!pv) return;
+  const c = resumeState.customize || (resumeState.customize = {accent:'#FE5D2B',font:'sans',density:'normal',order:['summary','experience','skills','education']});
+  pv.style.setProperty('--rp-accent', c.accent);
+  pv.style.fontFamily = c.font==='serif' ? "Georgia,'Times New Roman',serif"
+                      : c.font==='mono'  ? "'Geist Mono','JetBrains Mono',monospace"
+                      : "'Inter',system-ui,sans-serif";
+  pv.classList.remove('rp-density-compact','rp-density-normal','rp-density-relaxed');
+  pv.classList.add('rp-density-'+c.density);
+  c.order.forEach(key => { const s = pv.querySelector('.rp-section[data-section="'+key+'"]'); if(s) pv.appendChild(s); });
+}
+function initCustomizer(){
+  const c = resumeState.customize;
+  const accent = $('#rpcAccent'), font = $('#rpcFont'), density = $('#rpcDensity'), secWrap = $('#rpcSections');
+  if(accent){ accent.value = c.accent; accent.addEventListener('input', () => { c.accent = accent.value; applyCustomize(); saveResumeState(); }); }
+  if(font){ font.value = c.font; font.addEventListener('change', () => { c.font = font.value; applyCustomize(); saveResumeState(); }); }
+  if(density){ density.value = c.density; density.addEventListener('change', () => { c.density = density.value; applyCustomize(); saveResumeState(); }); }
+  const paper = $('#rpcPaper');
+  if(paper){ paper.value = c.paper || 'letter'; paper.addEventListener('change', () => { c.paper = paper.value; saveResumeState(); toast('Export paper size: ' + (paper.value === 'a4' ? 'A4' : 'US Letter'), 'success', 1600); }); }
+  function renderSectionChips(){
+    if(!secWrap) return;
+    secWrap.querySelectorAll('.rpc-chip').forEach(n => n.remove());
+    c.order.forEach((key, i) => {
+      const chip = document.createElement('span');
+      chip.className = 'rpc-chip';
+      chip.innerHTML = '<span>'+SECTION_LABELS[key]+'</span><button type="button" data-dir="up" aria-label="Move up">&#8593;</button><button type="button" data-dir="down" aria-label="Move down">&#8595;</button>';
+      chip.querySelector('[data-dir="up"]').addEventListener('click', () => { if(i>0){ const t=c.order[i-1]; c.order[i-1]=c.order[i]; c.order[i]=t; renderSectionChips(); applyCustomize(); saveResumeState(); } });
+      chip.querySelector('[data-dir="down"]').addEventListener('click', () => { if(i<c.order.length-1){ const t=c.order[i+1]; c.order[i+1]=c.order[i]; c.order[i]=t; renderSectionChips(); applyCustomize(); saveResumeState(); } });
+      secWrap.appendChild(chip);
+    });
+  }
+  renderSectionChips();
+  applyCustomize();
+}
+
 
 /* ───────────────────── TEMPLATE PILLS ───────────────────── */
 $$('.tpill').forEach(pill => {
   pill.addEventListener('click', () => {
     const tpl = pill.dataset.tpl;
     // Gate every non-Modern template for Free plan
-    const PRO_TEMPLATES = ['classic','bold','minimal','compact','technical','elegant'];
+    const PRO_TEMPLATES = ['classic','bold','minimal','compact','technical','elegant','colorful','professional','creative'];
     if(PRO_TEMPLATES.includes(tpl) && !canUse('pro')){
       const niceName = tpl.charAt(0).toUpperCase() + tpl.slice(1);
       showUpgradeModal(niceName + ' template', 'pro');
@@ -5921,10 +6088,111 @@ function printPage(targetHash, kind){
     }, 250);
   }));
 }
-function printResume(){ printPage('resume', 'resume'); }
-function printCover(){  printPage('cover',  'cover'); }
-$('[data-action="download-pdf"]')?.addEventListener('click', printResume);
-$('[data-action="cover-pdf"]')?.addEventListener('click', printCover);
+/* ── PDF export engine ──
+   Renders ONLY the document into a hidden, paper-sized iframe using the app's own
+   screen styles, so the exported PDF matches the live preview exactly (fonts,
+   colours, spacing, template). Correct A4 / US Letter dimensions, scale 1 (no
+   shrink, no auto-fit), centered with 12 mm margins. A subtle "Created with
+   Resumry AI" watermark is added for non-paid users; paid users get a clean file. */
+function stripCssAtRules(css, names){
+  names.forEach(name => {
+    let out = '', i = 0;
+    while(i < css.length){
+      const at = css.indexOf(name, i);
+      if(at === -1){ out += css.slice(i); break; }
+      const brace = css.indexOf('{', at);
+      if(brace === -1){ out += css.slice(i); break; }
+      out += css.slice(i, at);
+      let depth = 1, j = brace + 1;
+      while(j < css.length && depth > 0){
+        const ch = css[j];
+        if(ch === '{') depth++;
+        else if(ch === '}') depth--;
+        j++;
+      }
+      i = j;
+    }
+    css = out;
+  });
+  return css;
+}
+function getPaperSpec(){
+  const p = (resumeState && resumeState.customize && resumeState.customize.paper) || 'letter';
+  return p === 'a4'
+    ? { id:'a4',     size:'A4',     w:'210mm', h:'297mm', pw:'186mm',            ph:'273mm' }
+    : { id:'letter', size:'Letter', w:'8.5in', h:'11in', pw:'calc(8.5in - 24mm)', ph:'calc(11in - 24mm)' };
+}
+function buildPrintHtml(kind){
+  const node = kind === 'cover'
+    ? document.querySelector('#page-cover .cover-output')
+    : document.querySelector('#page-resume .preview-doc');
+  if(!node) return null;
+  if(kind === 'cover' && !node.textContent.trim()) return null;
+  const docHtml = node.outerHTML;
+  let css = Array.from(document.querySelectorAll('style')).map(s => s.textContent).join('\n');
+  css = stripCssAtRules(css, ['@media print', '@page']);
+  const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .filter(l => /fonts\.googleapis|fonts\.gstatic/.test(l.href))
+    .map(l => '<link rel="stylesheet" href="' + l.href + '">').join('\n');
+  const rootPx = (getComputedStyle(document.documentElement).fontSize) || '16px';
+  const sp = getPaperSpec();
+  const paid = (typeof canUse === 'function') && canUse('pro');
+  const wm = paid ? '' : '<div class="rp-print-wm" aria-hidden="true"><span>Created with Resumry AI</span></div>';
+  return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+    + '<title>' + (kind === 'cover' ? 'Cover Letter' : 'Resume') + '</title>'
+    + fontLinks
+    + '<style>' + css + '</style>'
+    + '<style>'
+    + 'html{font-size:' + rootPx + ';}'
+    + 'html,body{margin:0 !important;padding:0 !important;background:#fff !important;width:' + sp.w + ';-webkit-print-color-adjust:exact;print-color-adjust:exact;}'
+    + '.rp-print-page{box-sizing:border-box;width:' + sp.pw + ';min-height:' + sp.ph + ';margin:0 auto;background:#fff;position:relative;overflow:hidden;padding:0;}'
+    + '.rp-print-page .preview-doc,.rp-print-page .cover-output{box-shadow:none !important;border:0 !important;border-radius:0 !important;margin:0 !important;width:100% !important;max-width:none !important;min-height:0 !important;background:#fff !important;transform:none !important;}'
+    + '.rp-print-wm{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;pointer-events:none;}'
+    + '.rp-print-wm span{transform:rotate(-30deg);font:800 2.6rem/1 "Inter",Arial,sans-serif;letter-spacing:.06em;color:rgba(15,17,24,.08);white-space:nowrap;}'
+    + '@page{size:' + sp.size + ';margin:12mm;}'
+    + '@media print{html,body{width:' + sp.w + ';}.rp-print-page{width:' + sp.pw + ';min-height:' + sp.ph + ';}}'
+    + '</style></head><body><div class="rp-print-page">' + wm + docHtml + '</div></body></html>';
+}
+function exportDocument(kind){
+  if(kind === 'resume'){ try { updatePreview(); } catch(e){} }
+  const html = buildPrintHtml(kind);
+  if(!html){
+    toast(kind === 'cover' ? 'Generate a cover letter first.' : 'Nothing to export yet.', 'error');
+    return;
+  }
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('aria-hidden', 'true');
+  iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0;';
+  document.body.appendChild(iframe);
+  let done = false;
+  const cleanup = () => { if(done) return; done = true; setTimeout(() => { try { iframe.remove(); } catch(e){} }, 600); };
+  iframe.onload = () => {
+    const win = iframe.contentWindow;
+    const go = () => {
+      try {
+        win.focus();
+        try { win.addEventListener('afterprint', cleanup); } catch(e){}
+        win.print();
+        setTimeout(cleanup, 60000);
+      } catch(e){
+        console.warn('Print failed:', e);
+        toast('Could not open the print dialog. Use your browser File \u2192 Print.', 'error');
+        cleanup();
+      }
+    };
+    try {
+      if(win.document.fonts && win.document.fonts.ready){ win.document.fonts.ready.then(() => setTimeout(go, 80)).catch(() => setTimeout(go, 250)); }
+      else { setTimeout(go, 280); }
+    } catch(e){ setTimeout(go, 280); }
+  };
+  const idoc = iframe.contentWindow.document;
+  idoc.open(); idoc.write(html); idoc.close();
+  toast('Preparing your ' + (kind === 'cover' ? 'cover letter' : 'resume') + ' PDF\u2026', 'success', 1800);
+}
+function printResume(){ exportDocument('resume'); }
+function printCover(){  exportDocument('cover'); }
+$('[data-action="download-pdf"]')?.addEventListener('click', () => gatedDownload('resume-pdf', printResume));
+$('[data-action="cover-pdf"]')?.addEventListener('click', () => gatedDownload('cover-pdf', printCover));
 
 /* DOCX export — HTML wrapped as Word-friendly .doc. Works because Word reads HTML. */
 function exportAsDocx(filename, innerHtml, title){
@@ -5958,7 +6226,11 @@ p{margin:0 0 10pt}
   setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 100);
 }
 
-$('[data-action="download-docx"]')?.addEventListener('click', () => {
+function docxWatermark(){
+  return ((typeof canUse === 'function') && canUse('pro')) ? '' :
+    '<p style="text-align:center;color:#b9b9b9;font-family:Arial,sans-serif;font-size:8pt;margin-top:22pt;border-top:0.5pt solid #ddd;padding-top:6pt">Created with Resumry AI &middot; Free plan</p>';
+}
+function doResumeDocx(){
   if(!canUse('pro')){
     showUpgradeModal('DOCX export', 'pro');
     return;
@@ -5971,11 +6243,12 @@ $('[data-action="download-docx"]')?.addEventListener('click', () => {
     return;
   }
   const filename = (resumeState.name || 'Resume').replace(/[^\w\s-]/g,'').trim().replace(/\s+/g,'-') + '-Resume.doc';
-  exportAsDocx(filename, preview.innerHTML, (resumeState.name || 'Resume') + ' — Resume');
+  exportAsDocx(filename, preview.innerHTML + docxWatermark(), (resumeState.name || 'Resume') + ' — Resume');
   toast('DOCX downloaded.', 'success');
-});
+}
+$('[data-action="download-docx"]')?.addEventListener('click', () => gatedDownload('resume-docx', doResumeDocx));
 
-$('[data-action="cover-docx"]')?.addEventListener('click', () => {
+function doCoverDocx(){
   if(!canUse('pro')){
     showUpgradeModal('DOCX export', 'pro');
     return;
@@ -5983,9 +6256,10 @@ $('[data-action="cover-docx"]')?.addEventListener('click', () => {
   const cover = $('#coverOutput');
   if(!cover) return;
   const filename = 'Cover-Letter.doc';
-  exportAsDocx(filename, cover.innerHTML, 'Cover Letter');
+  exportAsDocx(filename, cover.innerHTML + docxWatermark(), 'Cover Letter');
   toast('Cover letter downloaded.', 'success');
-});
+}
+$('[data-action="cover-docx"]')?.addEventListener('click', () => gatedDownload('cover-docx', doCoverDocx));
 
 /* ───────────────────── ATS SCORING ENGINE ─────────────────────
    Real deterministic keyword/skill/experience matching against the JD.
@@ -6490,12 +6764,8 @@ $('#checkAts')?.addEventListener('click', () => {
 
 /* ───────────────────── COVER LETTER ───────────────────── */
 const coverForm = $('#coverForm');
-coverForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  if(!validateForm(coverForm)){
-    toast('Please complete required fields.', 'error');
-    return;
-  }
+function generateCoverLetter(opts){
+  opts = opts || {};
   const name    = sanitize($('#cl-name').value);
   const manager = sanitize($('#cl-manager').value) || 'Hiring Team';
   const company = sanitize($('#cl-company').value);
@@ -6542,7 +6812,17 @@ coverForm?.addEventListener('submit', (e) => {
 
   // Update word count
   updateCoverWordCount();
-  toast('Cover letter generated.', 'success');
+  saveCoverState();
+  if(!opts.silent) toast('Cover letter generated.', 'success');
+}
+
+coverForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if(!validateForm(coverForm)){
+    toast('Please complete required fields.', 'error');
+    return;
+  }
+  generateCoverLetter();
 });
 
 function updateCoverWordCount(){
@@ -6758,144 +7038,87 @@ const SECTION_HEADERS = {
 };
 
 function parseResume(rawText){
-  // Normalize line endings + clean whitespace
   const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  const result = {
-    name: '', email: '', phone: '', location: '',
-    title: '', summary: '',
-    experience: [], education: '', skills: [],
-    certifications: '', projects: ''
-  };
-
-  // EMAIL — find any line with email pattern
-  const emailMatch = rawText.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
-  if(emailMatch) result.email = emailMatch[0];
-
-  // PHONE — match international + US formats; tolerate spaces between groups.
-  // Tries common patterns: +CC NN NNNN NNNN, (NNN) NNN-NNNN, +N-NNN-NNN-NNNN, etc.
-  const phoneCandidates = [
-    /\+\d{1,3}[\s.-]?\d{1,4}[\s.-]?\d{3,4}[\s.-]?\d{3,4}/,           // +44 20 7946 0958, +1 415 555 0142
-    /\(?\b\d{3}\b\)?[\s.-]?\d{3}[\s.-]?\d{4}/,                       // (415) 555-0199, 415-555-0199
-    /\b\d{2,4}[\s.-]\d{2,4}[\s.-]\d{2,4}(?:[\s.-]\d{2,4})?/,         // generic fallback
-  ];
-  for(const re of phoneCandidates){
-    const m = rawText.match(re);
-    if(m){ result.phone = m[0].trim(); break; }
-  }
-
-  // LOCATION — "City, ST" or "City, Country" pattern. Often shares a line with
-  // email/phone (e.g. "name@example.com | +44 20 7946 0958 | London, UK"), so
-  // we don't skip lines that contain emails — we just exclude the email substring.
-  for(let i = 0; i < Math.min(8, lines.length); i++){
-    // Strip out anything that looks like an email or phone first, then look for city/state
-    const cleaned = lines[i].replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g, '').replace(/\+?\d[\d\s().-]{6,}/g,'');
+  const result = { name:'', email:'', phone:'', location:'', title:'', summary:'',
+                   experience:[], education:'', skills:[], certifications:'', projects:'' };
+  const em = rawText.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+  if(em) result.email = em[0];
+  for(const re of [
+    /\+\d{1,3}[\s.-]?\(?\d{1,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/,
+    /\(?\b\d{3}\b\)?[\s.-]?\d{3}[\s.-]?\d{4}/,
+    /\b\d{2,4}[\s.-]\d{2,4}[\s.-]\d{2,4}(?:[\s.-]\d{2,4})?/
+  ]){ const m = rawText.match(re); if(m){ result.phone = m[0].trim(); break; } }
+  for(let i=0;i<Math.min(10,lines.length);i++){
+    const cleaned = lines[i].replace(/[\w.+-]+@[\w-]+\.[\w.-]+/g,'').replace(/\+?\d[\d\s().-]{6,}/g,'');
     const m = cleaned.match(/\b([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?),\s+([A-Z][a-zA-Z]+|[A-Z]{2,3})\b/);
-    if(m){ result.location = m[0]; break; }
+    if(m){ result.location = m[0].trim(); break; }
   }
-
-  // NAME — typically the first non-empty line that isn't an email/phone/section header
-  for(let i = 0; i < Math.min(5, lines.length); i++){
+  const isHeader = ln => Object.values(SECTION_HEADERS).some(re => re.test(ln) || re.test(unspaceHeader(ln)));
+  for(let i=0;i<Math.min(6,lines.length);i++){
     const ln = lines[i];
-    if(/@/.test(ln) || /\d{3,}/.test(ln)) continue;
-    if(Object.values(SECTION_HEADERS).some(re => re.test(ln))) continue;
-    // Name pattern: 2-4 capitalized words
+    if(/@/.test(ln) || /\d{3,}/.test(ln) || /^https?:/i.test(ln) || isHeader(ln)) continue;
     const words = ln.split(/\s+/);
-    if(words.length >= 2 && words.length <= 4 && words.every(w => /^[A-Z][a-zA-Z'.-]+$/.test(w))){
-      result.name = ln;
-      // The line BELOW the name is often the title
-      if(lines[i+1] && !/@|\d{3,}|^https?:/i.test(lines[i+1]) && !Object.values(SECTION_HEADERS).some(re => re.test(lines[i+1]))){
-        result.title = lines[i+1];
+    const titleCase = words.length>=2 && words.length<=4 && words.every(w => /^[A-Z][a-zA-Z'.\-]+$/.test(w));
+    const allCaps   = words.length>=2 && words.length<=4 && words.every(w => /^[A-Z][A-Z'.\-]{1,}$/.test(w)) && ln.length<=40;
+    if(titleCase || allCaps){
+      result.name = allCaps ? ln.replace(/\b([A-Z])([A-Z]+)\b/g,(_,a,b)=>a+b.toLowerCase()) : ln;
+      for(let j=i+1;j<Math.min(i+4,lines.length);j++){
+        const nx = lines[j];
+        if(/@|\d{3,}|^https?:/i.test(nx) || isHeader(nx)) continue;
+        if(nx.length>=2 && nx.length<=70){ result.title = nx.replace(/[•|].*$/,'').trim(); }
+        break;
       }
       break;
     }
   }
-
-  // SECTION SPLIT — walk lines, when we hit a section header, group following lines into that section
-  let currentSection = null;
-  const sections = {};
-  for(let i = 0; i < lines.length; i++){
-    const ln = lines[i];
-    const lnUnspaced = unspaceHeader(ln);
+  let cur = null; const sections = {};
+  for(const ln of lines){
+    const lu = unspaceHeader(ln);
     let matched = null;
-    for(const [name, re] of Object.entries(SECTION_HEADERS)){
-      if(re.test(ln) || re.test(lnUnspaced) || re.test(ln.replace(/[—–:].*$/,'').trim())){ matched = name; break; }
+    for(const [name,re] of Object.entries(SECTION_HEADERS)){
+      if(re.test(ln) || re.test(lu) || re.test(ln.replace(/[—–:].*$/,'').trim())){ matched = name; break; }
     }
-    if(matched){
-      currentSection = matched;
-      sections[currentSection] = sections[currentSection] || [];
-      continue;
-    }
-    if(currentSection) sections[currentSection].push(ln);
+    if(matched){ cur = matched; sections[cur] = sections[cur]||[]; continue; }
+    if(cur) sections[cur].push(ln);
   }
-
-  // SUMMARY → join lines
   if(sections.summary) result.summary = sections.summary.join(' ').replace(/\s+/g,' ').trim();
-
-  // SKILLS → split by common delimiters
+  if(sections.education) result.education = sections.education.join(' ').replace(/\s+/g,' ').trim().slice(0,200);
   if(sections.skills){
-    const skillText = sections.skills.join(' ');
-    result.skills = skillText
-      .split(/[,•·|\u2022\u00b7;]|\s+\/\s+|\s+&\s+/)
-      .map(s => s.trim().replace(/^[-–—]\s*/,''))
-      .filter(s => s.length > 0 && s.length < 40);
-    // De-dupe, cap at 14
-    result.skills = [...new Set(result.skills)].slice(0, 14);
+    result.skills = [...new Set(
+      sections.skills.join(' ')
+        .split(/[,•·|\u2022\u00b7;]|\s+\/\s+|\s+&\s+/)
+        .map(s => s.trim().replace(/^[-–—]\s*/,''))
+        .filter(s => s.length>0 && s.length<40)
+    )].slice(0,16);
   }
-
-  // EDUCATION → join lines
-  if(sections.education) result.education = sections.education.join(' ').replace(/\s+/g,' ').trim().slice(0, 200);
-
-  // EXPERIENCE → segment into role blocks (each block starts on a line containing a year range)
   if(sections.experience){
-    const expLines = sections.experience;
-    const blocks = [];
-    let current = null;
-    // Match a full date range, with optional month names: "April 2021 — Present", "Jan 2018 - Feb 2022", "2019-2023"
     const monthRe = /(jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec|january|february|march|april|june|july|august|september|october|november|december)\.?\s*\d{4}/i;
     const yearRe  = /\b(19|20)\d{2}\b/;
     const endRe   = /\b(19|20)\d{2}\b|present|current|now/i;
-    // Build the date pattern: (month? year) (separator) (month? year | present)
-    const dateRangeRe = new RegExp(
-      '(?:' + monthRe.source + '|' + yearRe.source + ')' +
-      '\\s*[-–—]\\s*' +
-      '(?:' + monthRe.source + '|' + endRe.source + ')',
-      'i'
-    );
-    // Looser: just a single date at end of line (rare but covers some formats)
-    const singleDateAtEndRe = new RegExp('(' + monthRe.source + '|' + yearRe.source + ')\\s*$', 'i');
-    for(let i = 0; i < expLines.length; i++){
-      const ln = expLines[i];
-      const dateMatch = ln.match(dateRangeRe) || ln.match(singleDateAtEndRe);
-      const isBulletLine = /^[-•·▪■○●◆\u2022\u25cf\u25aa\u25a0]\s/.test(ln);
-      const looksLikeRoleHeader = !isBulletLine && ln.split(/\s+/).length <= 12 && /[A-Z]/.test(ln[0]||'') && !/[.!?]$/.test(ln);
-      if(dateMatch && looksLikeRoleHeader){
-        // New entry. Role is everything before the date string.
-        if(current) blocks.push(current);
-        const datesStr = dateMatch[0];
-        const roleStr = ln.slice(0, ln.indexOf(datesStr)).trim().replace(/[—–-]\s*$/,'').trim();
-        current = { roleAndCo: roleStr, dates: datesStr, company: '', bullets: [] };
-      } else if(current){
-        if(isBulletLine){
-          const cleaned = ln.replace(/^[-•·▪■○●◆\u2022\u25cf\u25aa\u25a0]\s*/,'').trim();
-          if(cleaned) current.bullets.push(cleaned);
-        } else if(!current.company && current.bullets.length === 0){
-          // First non-bullet line after the role/date line is the company
-          current.company = ln;
-        } else {
-          // Subsequent non-bullet lines are bullet text (résumés often skip bullet markers)
-          current.bullets.push(ln);
-        }
+    const dateRangeRe = new RegExp('(?:'+monthRe.source+'|'+yearRe.source+')\\s*[-–—to]+\\s*(?:'+monthRe.source+'|'+endRe.source+')','i');
+    const singleAtEnd = new RegExp('('+monthRe.source+'|'+yearRe.source+')\\s*$','i');
+    const blocks=[]; let cc=null;
+    for(const ln of sections.experience){
+      const dm = ln.match(dateRangeRe) || ln.match(singleAtEnd);
+      const isBullet = /^[-•·▪■○●◆\u2022\u25cf\u25aa\u25a0]\s/.test(ln);
+      const roleish  = !isBullet && ln.split(/\s+/).length<=12 && /[A-Z]/.test(ln[0]||'') && !/[.!?]$/.test(ln);
+      if(dm && roleish){
+        if(cc) blocks.push(cc);
+        const dates = dm[0];
+        const role  = ln.slice(0, ln.indexOf(dates)).trim().replace(/[—–-]\s*$/,'').trim();
+        cc = { roleAndCo:role, dates, company:'', bullets:[] };
+      } else if(cc){
+        if(isBullet){ const t = ln.replace(/^[-•·▪■○●◆\u2022\u25cf\u25aa\u25a0]\s*/,'').trim(); if(t) cc.bullets.push(t); }
+        else if(!cc.company && cc.bullets.length===0){ cc.company = ln; }
+        else { cc.bullets.push(ln); }
       }
     }
-    if(current) blocks.push(current);
-    result.experience = blocks.slice(0, 6); // sane cap
+    if(cc) blocks.push(cc);
+    result.experience = blocks.slice(0,6);
   }
-
-  // CERTIFICATIONS + PROJECTS → keep as joined text for now
   if(sections.certifications) result.certifications = sections.certifications.join('\n').trim();
   if(sections.projects) result.projects = sections.projects.join('\n').trim();
-
-  if(typeof window !== 'undefined') window.__lastParsed = result;  // DEBUG
+  if(typeof window !== 'undefined') window.__lastParsed = result;
   return result;
 }
 
@@ -7107,7 +7330,6 @@ const TOOL_HANDLERS = {
   'E-Sign PDF':         { fn: toolPdfWatermark, accept: '.pdf',  multiple: false, title: 'E-Sign PDF',         desc: 'Type your name to sign — it will be added to every page. (Simple version; full draw-signature flow coming soon.)', tier: 'free', price: 2.99, opts: [{name:'text', label:'Signature text', placeholder:'Your Name', default:''}] },
   'AI Resume Rewriter': { tier: 'pro', requiresAi: true, price: 4.99, title: 'AI Resume Rewriter', desc: 'Pro feature — rewrites duties as achievement statements with metrics. Requires AI integration in production.' },
   'AI Summarizer':      { tier: 'pro', requiresAi: true, price: 4.99, title: 'AI Summarizer',      desc: 'Pro feature — pulls a short brief from any document. Requires AI integration in production.' },
-  'AI Translator':      { tier: 'pro', requiresAi: true, price: 4.99, title: 'AI Translator',      desc: 'Pro feature — translates documents across 30+ languages. Requires AI integration in production.' },
 };
 // Alias: Word to PDF uses a different function (handled above)
 async function toolPdfFromWord(files, opts, onProgress){ return toolWordToPdf(files, opts, onProgress); }
@@ -7120,7 +7342,6 @@ const TOOLS = [
   { cat:'organize', name:'Compress PDF',       desc:'Shrink PDF size for email and uploads, with no quality loss.', badge:null },
   { cat:'ai',       name:'AI Resume Rewriter', desc:'Turn flat duties into achievement statements with metrics.', badge:'AI' },
   { cat:'ai',       name:'AI Summarizer',      desc:'Get a one-page brief from any 50-page PDF in seconds.', badge:'AI' },
-  { cat:'ai',       name:'AI Translator',      desc:'Translate documents across 30+ languages, preserving layout.', badge:'AI' },
   { cat:'edit',     name:'E-Sign PDF',         desc:'Legally sign documents with typed, drawn, or uploaded signatures.', badge:null },
   { cat:'convert',  name:'PDF to Image',       desc:'Export pages as PNG or JPG, single page or all at once.', badge:null },
   { cat:'edit',     name:'Add Watermark',      desc:'Add a custom watermark to one or all pages of a PDF.', badge:null }
@@ -7277,7 +7498,60 @@ function wireUpload(zoneSel, inputSel, statusSel, maxBytes){
     handleFiles(e.dataTransfer.files);
   });
 }
-wireUpload('#cvUpload',    '#cvUploadFile',    '#cvUploadStatus',    10 * 1024 * 1024);
+/* Cover-letter upload -> parse resume -> autofill -> auto-generate */
+function wireCoverUpload(){
+  const zone   = $('#cvUpload');
+  const input  = $('#cvUploadFile');
+  const status = $('#cvUploadStatus');
+  if(!zone || !input) return;
+  const fmt = n => n < 1024 ? n+' B' : n < 1048576 ? (n/1024).toFixed(1)+' KB' : (n/1048576).toFixed(2)+' MB';
+  const show = (html, kind) => { if(!status) return; status.hidden=false; status.className='upload-status '+(kind||''); status.innerHTML=html; };
+  async function handle(file){
+    if(!file) return;
+    const isPdf  = /\.pdf$/i.test(file.name)  || file.type === 'application/pdf';
+    const isDocx = /\.docx$/i.test(file.name) || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    const isTxt  = /\.txt$/i.test(file.name)  || file.type === 'text/plain';
+    if(!isPdf && !isDocx && !isTxt){ toast('Upload a PDF, DOCX, or TXT file.', 'error'); input.value=''; return; }
+    if(file.size > 10*1024*1024){ toast('File too large - keep resumes under 10 MB.', 'error'); input.value=''; return; }
+    show('<span class="spinner" aria-hidden="true"></span><div><b>'+escapeHtml(file.name)+'</b><small>Reading resume...</small></div>', '');
+    try {
+      let extracted;
+      if(isPdf)       extracted = await extractTextFromPdf(file, (p,t)=> show('<span class="spinner"></span><div><b>'+escapeHtml(file.name)+'</b><small>Reading page '+p+' of '+t+'...</small></div>',''));
+      else if(isDocx) extracted = await extractTextFromDocx(file);
+      else            extracted = { text: await file.text(), pages:1 };
+      if(!extracted.text || extracted.text.trim().length < 30)
+        throw new Error('Could not read enough text - this may be a scanned image. Fill the fields below manually.');
+      const parsed = parseResume(extracted.text);
+      window.__coverResume = parsed;
+      const set = (sel,val)=>{ const el=$(sel); if(el && val){ el.value=val; } };
+      set('#cl-name',  parsed.name);
+      set('#cl-role',  parsed.title);
+      if(parsed.email && $('#rf-email'))        $('#rf-email').value = parsed.email;
+      if(parsed.phone) resumeState.phone = parsed.phone;
+      if(parsed.skills && parsed.skills.length) resumeState.skills = parsed.skills.slice();
+      const ok = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      show(ok+'<div><b>'+escapeHtml(file.name)+'</b><small>'+fmt(file.size)+' &middot; parsed &middot; generating letter...</small></div><button type="button" class="upload-clear" aria-label="Remove file"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>', 'ok');
+      if(!$('#cl-jd').value || $('#cl-jd').value.trim().length < 30)
+        toast('Resume parsed. Add the company + paste the job description, then it tailors automatically.', 'success', 4200);
+      generateCoverLetter({ silent:true });
+      toast('Cover letter drafted from your resume - edit anything below.', 'success', 4000);
+    } catch(err){
+      console.warn('Cover upload parse failed:', err);
+      show('<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v4M8 11v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div><b>Could not parse</b><small>'+escapeHtml(err.message||'Try another file.')+'</small></div>', 'err');
+      toast(err.message || 'Could not parse this resume.', 'error', 5000);
+    } finally { input.value=''; }
+  }
+  if(status){ status.addEventListener('click', e => { if(e.target.closest('.upload-clear')){ input.value=''; status.hidden=true; status.innerHTML=''; } }); }
+  zone.addEventListener('click', e => {
+    if(e.target.closest('.upload-clear')) return;
+    if(e.target.closest('[data-upload-trigger]') || e.target === zone || (e.target.closest('.upload-zone') && !e.target.closest('button, input, .upload-status'))) input.click();
+  });
+  input.addEventListener('change', () => handle(input.files[0]));
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+  zone.addEventListener('drop',      e => { e.preventDefault(); zone.classList.remove('dragover'); handle(e.dataTransfer.files[0]); });
+}
+wireCoverUpload();
 wireUpload('#toolsUpload', '#toolsUploadFile', '#toolsUploadStatus', 50 * 1024 * 1024);
 
 
@@ -7378,6 +7652,8 @@ $('#authForm')?.addEventListener('submit', async (e) => {
       }
       applyAuthUi();
       applyPlanUi();
+      switchProfileAfterAuth();
+      runPendingDownload();
       const firstName = result.user.name.split(/\s+/)[0];
       const trialMsg = result.user.trialEndsAt ? ` Your 7-day Pro trial is active.` : '';
       toast(`Welcome to Resumry, ${firstName}!${trialMsg}`, 'success', 3500);
@@ -7390,6 +7666,8 @@ $('#authForm')?.addEventListener('submit', async (e) => {
       }
       applyAuthUi();
       applyPlanUi();
+      switchProfileAfterAuth();
+      runPendingDownload();
       const firstName = result.user.name.split(/\s+/)[0];
       toast(`Welcome back, ${firstName}.`, 'success');
       setTimeout(() => { location.hash = 'dashboard'; }, 600);
@@ -7401,6 +7679,65 @@ $('#authForm')?.addEventListener('submit', async (e) => {
     if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = originalBtnText; }
   }
 });
+
+/* ── Social sign-in (Google / Apple / LinkedIn) ──
+   No backend here, so this can't run a real OAuth redirect/token exchange.
+   Instead it signs the user in through the app's own account system as a
+   provider-backed account, so it integrates with sessions, the download gate,
+   and per-profile storage. In production, swap socialSignIn() for a real OAuth
+   flow (redirect to the provider, then create/login the user from the verified
+   profile the provider returns). */
+const OAUTH_PROVIDERS = {
+  google:   { label:'Google',   email:'you@gmail.com',    name:'Google User'   },
+  apple:    { label:'Apple',    email:'you@icloud.com',   name:'Apple User'    },
+  linkedin: { label:'LinkedIn', email:'you@outlook.com',  name:'LinkedIn User' }
+};
+async function socialSignIn(provider){
+  const meta = OAUTH_PROVIDERS[provider];
+  if(!meta) return;
+  const btn = document.querySelector('.oauth-btn[data-oauth="' + provider + '"]');
+  const prevHtml = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled = true; btn.style.opacity = '.7'; btn.innerHTML = 'Connecting to ' + meta.label + '\u2026'; }
+  try {
+    const users = loadUsers();
+    let user = users.find(u => u.email.toLowerCase() === meta.email);
+    if(!user){
+      const wantsTrial = userPlan === 'pro';
+      user = {
+        id: 'u_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36),
+        name: meta.name, email: meta.email, phone: null,
+        pwHash: null, provider: provider,
+        plan: wantsTrial ? 'pro' : 'free',
+        trialEndsAt: wantsTrial ? (Date.now() + TRIAL_DAYS * 86400000) : null,
+        verifiedEmail: true, verifiedPhone: false,
+        createdAt: Date.now(), lastLogin: Date.now()
+      };
+      users.push(user); saveUsers(users);
+      try { cfApi.recordLogin(user.id, { success:true }); cfApi.pushAdminEvent('signup', { userId:user.id, email:user.email, plan:user.plan, provider:provider }); } catch(e){}
+    } else {
+      const idx = users.findIndex(u => u.id === user.id);
+      if(idx >= 0){ users[idx].lastLogin = Date.now(); if(!users[idx].provider) users[idx].provider = provider; saveUsers(users); }
+      try { cfApi.recordLogin(user.id, { success:true }); cfApi.pushAdminEvent('login', { userId:user.id, email:user.email, provider:provider }); } catch(e){}
+    }
+    saveSession({ userId:user.id, loggedInAt:Date.now(), expiresAt:Date.now() + SESSION_TTL_MS, ua:navigator.userAgent });
+    setPlan(user.plan, {silent:true});
+    applyAuthUi();
+    applyPlanUi();
+    switchProfileAfterAuth();
+    runPendingDownload();
+    const firstName = (user.name || meta.label).split(/\s+/)[0];
+    toast('Signed in with ' + meta.label + '.', 'success');
+    setTimeout(() => { location.hash = 'dashboard'; }, 700);
+  } catch(err){
+    console.warn('Social sign-in error:', err);
+    toast('Could not sign in with ' + meta.label + '. Try email instead.', 'error', 4000);
+    if(btn){ btn.disabled = false; btn.style.opacity = ''; btn.innerHTML = prevHtml; }
+  }
+}
+document.querySelectorAll('.oauth-btn[data-oauth]').forEach(b => {
+  b.addEventListener('click', () => socialSignIn(b.dataset.oauth));
+});
+
 $('#forgotLink')?.addEventListener('click', (e) => {
   e.preventDefault();
   toast('Password reset email sent.', 'success');
@@ -7486,6 +7823,7 @@ function init(){
   renderChips();
   bindSkillInput();
   updatePreview();
+  initCustomizer();
   // Tools grid
   renderTools();
   // Sync field controls with stored state for fields that were initialized in HTML
@@ -7821,6 +8159,7 @@ toolRunBtn?.addEventListener('click', async () => {
     // Branch on plan: Pro/Business subscribers get instant download (covered by subscription).
     // Free users hit the paywall — pay-per-file before download.
     if(canUse('pro')){
+      if(!isLoggedIn()){ closeTool(); requireAuthForDownload('tool'); return; }
       toolResult.hidden = false;
       toolResultTitle.textContent = 'File ready · Included with Pro';
       toolResultDesc.textContent = result.message || result.note || 'Your file is ready. Downloading now…';
@@ -7898,6 +8237,7 @@ function paywallHide(){
 
 async function paywallPurchase(){
   if(!pendingToolDownload) return;
+  if(!isLoggedIn()){ closeTool(); requireAuthForDownload('tool'); return; }
   const { blob, filename, toolName, price, skipDownload } = pendingToolDownload;
 
   // If no payment method, open the payment modal stacked ON TOP of the tool modal.
@@ -9326,11 +9666,14 @@ window.addEventListener('hashchange', () => {
 // Multi-tab sync — if another tab logs in/out or changes plan, this tab reacts
 window.addEventListener('storage', (e) => {
   if(e.key === USERS_KEY || e.key === SESSION_KEY || e.key === PLAN_KEY){
-    // Re-read plan from storage and re-apply UI
     try {
       const p = localStorage.getItem(PLAN_KEY);
       if(PLAN_TIERS.includes(p)) userPlan = p;
     } catch(err){}
+    if(e.key === SESSION_KEY){
+      applyStorageScope();
+      try { resumeState = loadResumeState(); bindResumeForm && bindResumeForm(); renderExpBlocks && renderExpBlocks(); renderChips && renderChips(); updatePreview && updatePreview(); } catch(err){}
+    }
     applyPlanUi();
     applyAuthUi();
   }
